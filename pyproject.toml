@@ -1,0 +1,16 @@
+[project]
+name = "short-generator"
+version = "0.1.0"
+description = "Clip Twitch stream moments when chat spikes and make YouTube Shorts"
+requires-python = ">=3.10"
+dependencies = ["streamlink"]
+
+[project.optional-dependencies]
+ai = ["anthropic"]
+upload = ["google-api-python-client", "google-auth-oauthlib"]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false

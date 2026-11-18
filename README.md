@@ -4,14 +4,20 @@ One file (`shortgen.py`). Watches Twitch chat; when messages spike, clips ~18s o
 into a vertical 1080x1920 video and (optionally) titles it with Claude and uploads it as a YouTube Short.
 
 ## Setup
-Needs `ffmpeg` on PATH, then `pip install -r requirements.txt` (anthropic/google libs only if you use those flags).
+Needs `ffmpeg` on PATH (system install) and [uv](https://docs.astral.sh/uv/). Then:
+```
+uv sync                      # core
+uv sync --extra ai           # + Claude titles (--model)
+uv sync --extra upload       # + YouTube upload (--upload)
+```
+Run with `uv run shortgen.py ...`.
 
 ## Usage
 ```
-python shortgen.py gaules ludwig --threshold 150 --window 30      # clip locally into ./clips
-python shortgen.py somestreamer --detect-only --threshold 50      # tune the threshold: just logs spikes
-python shortgen.py somestreamer --model claude-haiku-5-5          # AI title (set ANTHROPIC_API_KEY)
-python shortgen.py somestreamer --upload --privacy private        # upload (see below)
+uv run shortgen.py gaules ludwig --threshold 150 --window 30      # clip locally into ./clips
+uv run shortgen.py somestreamer --detect-only --threshold 50      # tune the threshold: just logs spikes
+uv run shortgen.py somestreamer --model claude-haiku-5-5          # AI title (set ANTHROPIC_API_KEY)
+uv run shortgen.py somestreamer --upload --privacy private        # upload (see below)
 ```
 | flag | default | meaning |
 |---|---|---|
@@ -34,4 +40,4 @@ Note: uploads from unaudited API projects are forced to private until Google aud
 Chat: anonymous Twitch IRC (no login). Video: `streamlink | ffmpeg` keeps a rolling buffer of 4s segments in `./buffer`.
 On a spike it waits a few seconds, concatenates the segments around the moment, and re-encodes to 9:16.
 
-Test: `pytest`. Only Twitch is supported. Only clip streams you're allowed to re-post; check each streamer's policy.
+Test: `uv run pytest`. Only Twitch is supported. Only clip streams you're allowed to re-post; check each streamer's policy.
