@@ -1,0 +1,6 @@
+buffer/
+clips/
+client_secret.json
+youtube_token.json
+__pycache__/
+.pytest_cache/

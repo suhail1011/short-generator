@@ -1,0 +1,4 @@
+streamlink
+anthropic                # optional: --model titles
+google-api-python-client # optional: --upload
+google-auth-oauthlib     # optional: --upload
